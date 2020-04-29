@@ -1,0 +1,81 @@
+// Because downloadAll doesn't work, I've built a similar task to download libraries depending on OS.
+
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+plugins {
+  id "de.undercouch.download"
+}
+
+task osConfig {
+  description 'config for os type'
+}
+
+[FAMILY_WINDOWS, FAMILY_UNIX, FAMILY_MAC].each { osName ->
+  // Create Task
+  tasks.create(osName) {
+    description "Run when OS is ${osName}"
+    
+    // Add condition to check operating system.
+    onlyIf { isFamily(osName) }
+
+    doLast {
+      println "Execute task '${it.name}'"
+    }
+  }
+
+  // Add task as dependency for the os task
+  osConfig.dependsOn osName
+}
+
+task downloadWindowsFiles(type: Download) {
+  src 'http://www.example.com/index.html'
+  dest new File(buildDir, 'libgraph-1.0.2.tar.gz')
+}
+
+task downloadUnixFiles {
+  def destDir = new File(buildDir, 'libgraph.tar.gz')
+  doLast{
+    download {
+      src 'http://download.savannah.gnu.org/releases/libgraph/libgraph-1.0.2.tar.gz'
+      dest destDir
+    }
+    copy {
+      from tarTree(destDir)
+      into buildDir
+    }
+  }
+}
+
+task downloadMacFiles(type: Download) {
+  src 'http://www.example.com/index.html'
+  dest buildDir
+}
+
+task downloadAll(type: Exec) {
+  description 'Downloads all libraries specific to OS'
+  dependsOn(osConfig)
+
+  workingDir '.'
+
+  if (isFamily(FAMILY_WINDOWS)) {
+    println "OS Not Supported Yet"
+    dependsOn(downloadWindowsFiles)
+  } else if (isFamily(FAMILY_UNIX)) {
+    println "Unix based libraries being downloaded"
+    dependsOn(downloadUnixFiles) // Download Unix based files
+    commandLine './linux_bootstrap.sh'
+  } else if (isFamily(FAMILY_MAC)) {
+    println "OS Not Supported Yet"
+    dependsOn(downloadMacFiles)
+  } else {
+    println "OS Not Supported"
+  }
+
+  ignoreExitValue true
+
+  doLast {
+    println "Family: ${OS_NAME}"
+    println "Version: ${OS_VERSION}"
+    println "Achitecture: ${OS_ARCH}"
+  }
+}
+
