@@ -1,0 +1,4 @@
+task downloadWindowsFiles(type: Download) {
+  src 'http://www.example.com/index.html'
+  dest new File(buildDir, 'libgraph-1.0.2.tar.gz')
+}

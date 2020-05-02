@@ -5,6 +5,10 @@ plugins {
   id "de.undercouch.download"
 }
 
+apply from: 'UNIX/build.gradle'
+apply from: 'WIN/build.gradle'
+apply from: 'MAC/build.gradle' 
+
 task osConfig {
   description 'config for os type'
 }
@@ -24,30 +28,6 @@ task osConfig {
 
   // Add task as dependency for the os task
   osConfig.dependsOn osName
-}
-
-task downloadWindowsFiles(type: Download) {
-  src 'http://www.example.com/index.html'
-  dest new File(buildDir, 'libgraph-1.0.2.tar.gz')
-}
-
-task downloadUnixFiles {
-  def destDir = new File(buildDir, 'libgraph.tar.gz')
-  doLast{
-    download {
-      src 'http://download.savannah.gnu.org/releases/libgraph/libgraph-1.0.2.tar.gz'
-      dest destDir
-    }
-    copy {
-      from tarTree(destDir)
-      into buildDir
-    }
-  }
-}
-
-task downloadMacFiles(type: Download) {
-  src 'http://www.example.com/index.html'
-  dest buildDir
 }
 
 task downloadAll(type: Exec) {

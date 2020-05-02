@@ -1,0 +1,13 @@
+task downloadUnixFiles {
+  def destDir = new File(buildDir, 'libgraph.tar.gz')
+  doLast{
+    download {
+      src 'http://download.savannah.gnu.org/releases/libgraph/libgraph-1.0.2.tar.gz'
+      dest destDir
+    }
+    copy {
+      from tarTree(destDir)
+      into buildDir
+    }
+  }
+}
