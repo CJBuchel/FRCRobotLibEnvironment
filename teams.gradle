@@ -34,16 +34,15 @@ deploy {
     }
 }
 
-// Set this to true to include the src folder in the include directories passed
-// to the compiler. Some eclipse project imports depend on this behavior.
-// We recommend leaving this disabled if possible. Note for eclipse project
-// imports this is enabled by default. For new projects, its disabled
+// WML settings
 def includeSrcInIncludeRoot = true
 
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
 
 def includeWMLRevSupport = true
+
+def includeWayFinder = false
 
 // Enable simulation gui support. Must check the box in vscode to enable support
 // upon debugging
