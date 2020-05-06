@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 
 #include <frc/Timer.h>
@@ -30,7 +29,6 @@
 #include <cameraserver/CameraServer.h>
 #include <frc/DriverStation.h> 
 
-#include "wayfinder.h"
 #include "RobotMap.h"
 
 #include "Toggle.h"
@@ -51,7 +49,6 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
   void TestPeriodic() override;
 
  private:
-  WayFinder *wayFinder;
   wml::Drivetrain *drivetrain;
   RobotMap robotMap;
 };
