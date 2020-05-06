@@ -8,8 +8,8 @@ using namespace wml;
 
 WayFinder::WayFinder *wayFinder; // main wayfinder
 
-WayFinder::Path::sPath spath1;
-WayFinder::Path::lPath lpath1;
+WayFinder::Path::sPath spath1; // path1
+WayFinder::Path::lPath lpath1; // path2
 
 double gearboxReduction = 7; // 7:1
 double wheelDiameter = 15.23; // 15.23 cm
