@@ -1,5 +1,3 @@
-// Because downloadAll doesn't work, I've built a similar task to download libraries depending on OS.
-
 import static org.apache.tools.ant.taskdefs.condition.Os.*
 plugins {
   id "de.undercouch.download"
@@ -58,4 +56,3 @@ task downloadAll(type: Exec) {
     println "Achitecture: ${OS_ARCH}"
   }
 }
-

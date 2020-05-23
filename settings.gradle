@@ -28,4 +28,4 @@ pluginManagement {
 
 
 rootProject.name = 'FRCRobotLibEvironment'
-include '4788', 'Common', 'WayFinder:pathBuilder'
+include '4788', '4788:src:coprocessor', 'Common', 'WayFinder:pathBuilder'
