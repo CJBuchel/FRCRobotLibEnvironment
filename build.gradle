@@ -30,6 +30,7 @@ subprojects {
 	project.buildDir = rootProject.buildDir
 }
 
+
 wrapper {
 	gradleVersion = '6.8'
 }
