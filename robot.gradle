@@ -57,7 +57,8 @@ sim {
 
 model {
 	components {
-		frcUserProgram(NativeExecutableSpec) {
+		
+		frcUserProgram(NativeExecutableSpec) { // frc user
 			targetPlatform wpi.platforms.roborio
 			if (includeDesktopSupport) {
 				targetPlatform wpi.platforms.desktop
@@ -66,29 +67,26 @@ model {
 			sources.cpp {
 				source {
 					srcDir 'src/main/cpp' // robot
-
-					srcDir rootProject.file('WML/src/main/cpp') // wml
-					srcDir rootProject.file('WML/src/rev/cpp') // wml-rev
 					include '**/*.cpp', '**/*.cc'
 				}
 
 				exportedHeaders {
 					srcDir 'src/main/include' // robot
 
-					srcDir rootProject.file('WML/src/main/include') // wml
-					srcDir rootProject.file('WML/src/rev/include') // wml-rev
 					if (includeSrcInIncludeRoot) {
 						srcDir 'src/main/cpp' // robot
-						srcDir rootProject.file('WML/src/main/cpp') // wml
-						srcDir rootProject.file('WML/src/rev/cpp') // wml-rev
 					}
 				}
+			}
+
+			binaries.all {
+				lib project: ':WML:WML-Core', library: 'wml', linkage: 'shared'
 			}
 
 			// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 			wpi.deps.vendor.cpp(it)
 			wpi.deps.wpilib(it)
-		}
+		} // frc user
 	}
 
 	testSuites {

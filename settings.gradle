@@ -27,4 +27,4 @@ pluginManagement {
 }
 
 rootProject.name = 'FRCRobotLibEnvironment'
-include '4788'
+include '4788', 'WML:WML-Core'
