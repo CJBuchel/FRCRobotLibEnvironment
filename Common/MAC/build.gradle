@@ -1,4 +1,0 @@
-task downloadMacFiles(type: Download) {
-  src 'http://www.example.com/index.html'
-  dest buildDir
-}

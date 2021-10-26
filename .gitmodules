@@ -1,9 +1,0 @@
-[submodule "WML"]
-	path = WML
-	branch = master
-	url = https://github.com/wml-frc/WML.git
-
-[submodule "CJ-Vision"]
-	path = CJ-Vision
-	branch = master
-	url = https://github.com/wml-frc/CJ-Vision.git
