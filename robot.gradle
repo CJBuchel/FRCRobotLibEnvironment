@@ -37,10 +37,10 @@ deploy {
 // to the compiler. Some eclipse project imports depend on this behavior.
 // We recommend leaving this disabled if possible. Note for eclipse project
 // imports this is enabled by default. For new projects, its disabled
-def includeSrcInIncludeRoot = false
+def includeSrcInIncludeRoot = true
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = true
+def includeDesktopSupport = false
 
 // Enable simulation gui support. Must check the box in vscode to enable support
 // upon debugging
@@ -65,13 +65,22 @@ model {
 
 			sources.cpp {
 				source {
-					srcDir 'src/main/cpp'
+					srcDir 'src/main/cpp' // robot
+
+					srcDir rootProject.file('WML/src/main/cpp') // wml
+					srcDir rootProject.file('WML/src/rev/cpp') // wml-rev
 					include '**/*.cpp', '**/*.cc'
 				}
+
 				exportedHeaders {
-					srcDir 'src/main/include'
+					srcDir 'src/main/include' // robot
+
+					srcDir rootProject.file('WML/src/main/include') // wml
+					srcDir rootProject.file('WML/src/rev/include') // wml-rev
 					if (includeSrcInIncludeRoot) {
-						srcDir 'src/main/cpp'
+						srcDir 'src/main/cpp' // robot
+						srcDir rootProject.file('WML/src/main/cpp') // wml
+						srcDir rootProject.file('WML/src/rev/cpp') // wml-rev
 					}
 				}
 			}
