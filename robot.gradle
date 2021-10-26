@@ -80,7 +80,7 @@ model {
 			}
 
 			binaries.all {
-				lib project: ':WML:WML-Core', library: 'wml', linkage: 'shared'
+				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
 			}
 
 			// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.

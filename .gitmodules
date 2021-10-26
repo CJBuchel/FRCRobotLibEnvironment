@@ -1,5 +1,6 @@
 [submodule "WML"]
 	path = WML
+	branch = 2022-update
 	url = https://github.com/wml-frc/WML.git
 [submodule "CJ-Vision"]
 	path = CJ-Vision
