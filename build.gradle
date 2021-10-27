@@ -1,5 +1,9 @@
 plugins {
-	id 'org.ysb33r.doxygen' version '0.5' apply false
+	id 'org.ysb33r.doxygen' version '0.7.0'
+}
+
+ext {
+	vision_multiProject = true
 }
 
 allprojects {

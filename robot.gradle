@@ -1,6 +1,11 @@
+apply plugin: 'org.ysb33r.doxygen'
 apply plugin: 'cpp'
 apply plugin: 'google-test-test-suite'
 apply plugin: 'edu.wpi.first.GradleRIO'
+
+ext {
+	teamID = teamNum
+}
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
@@ -11,7 +16,7 @@ deploy {
 			// or from command line. If not found an exception will be thrown.
 			// You can use getTeamOrDefault(team) instead of getTeamNumber if you
 			// want to store a team number in this file.
-			team = 4788
+			team = teamNum
 		}
 	}
 
@@ -57,8 +62,19 @@ sim {
 
 model {
 	components {
+
+		udpTransferNT(NativeLibrarySpec) {
+			targetPlatform wpi.platforms.roborio
+			sources {
+				cpp {
+					exportedHeaders {
+						srcDir rootProject.file('CJ-Vision/Core/common/libs/UDP_TransferNT/UDP_TransferNT/include')
+					}
+				}
+			}
+		}
 		
-		frcUserProgram(NativeExecutableSpec) { // frc user
+		"${nativeName}"(NativeExecutableSpec) { // frc user
 			targetPlatform wpi.platforms.roborio
 			if (includeDesktopSupport) {
 				targetPlatform wpi.platforms.desktop
@@ -81,6 +97,8 @@ model {
 
 			binaries.all {
 				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
+				lib project: ':WML-Rev', library: 'WML-Rev', linkage: 'shared'
+				lib library: 'udpTransferNT', linkage: 'shared'
 			}
 
 			// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
@@ -90,8 +108,13 @@ model {
 	}
 
 	testSuites {
-		frcUserProgramTest(GoogleTestTestSuiteSpec) {
-			testing $.components.frcUserProgram
+		"${nativeName}Test"(GoogleTestTestSuiteSpec) {
+			for(NativeComponentSpec c : $.components) {
+				if (c.name == nativeName) {
+					testing c
+					break
+				}
+			}
 
 			sources.cpp {
 				source {
@@ -100,9 +123,25 @@ model {
 				}
 			}
 
+			binaries.all {
+				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
+				lib project: ':WML-Rev', library: 'WML-Rev', linkage: 'shared'
+				lib library: 'udpTransferNT', linkage: 'shared'
+			}
+
 			wpi.deps.vendor.cpp(it)
 			wpi.deps.wpilib(it)
 			wpi.deps.googleTest(it)
 		}
 	}
+}
+
+doxygen {
+	executables {
+		doxygen version : '1.8.13'
+	}
+
+	generate_html true
+	source project.file('src/main/include')
+	outputDir new File(buildDir,"docs/${nativeName}/doxygen")
 }

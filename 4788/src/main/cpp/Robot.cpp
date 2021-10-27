@@ -10,52 +10,43 @@
 
 #include "Drivetrain.h"
 
+using namespace UDP_TransferNT;
+
+
+struct PID {
+	double sum = 0, prevErr = 0;
+	double kP = 0.3, kI = 0, kD = 0;
+	double pid(double dt, double input, double goal) {
+		double error = goal - input;
+		double dError = (error - prevErr)/dt;
+		sum = sum + error * dt;
+
+		double output = (kP * error) + (kI * sum) + (kD * dError);
+		return output;
+	}
+}; PID pid;
+
 void Robot::RobotInit() {
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	_network = std::make_shared<Network>(Network::Type::SERVER, Network::ConnectionType::IP_SPECIFIC);
+	_network->getSocket().setPort(5801); // legal frc ports are between 5800:5810
+	_network->getSocket().setRecvTimeout(1); // set timeout to 1ms
+	_network->init();
 }
 
-/**
- * This function is called every robot packet, no matter the mode. Use
- * this for items like diagnostics that you want ran during disabled,
- * autonomous, teleoperated and test.
- *
- * <p> This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
+
 void Robot::RobotPeriodic() {}
 
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-void Robot::AutonomousInit() {
-  m_autoSelected = m_chooser.GetSelected();
-  // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-  //     kAutoNameDefault);
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
-
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
-}
+void Robot::AutonomousInit() {}
 
 void Robot::AutonomousPeriodic() {
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
+	_visionValues = _network->dpRecv(_visionValues, true);
+	double xoffset = _visionValues.getDecimals(0) - 320;
+	double rpiDT = _visionValues.getDecimals(2);
+
+	// PID, get dt from rpi and use gyroscope with x coord value
+	double power = pid.pid(rpiDT, _robotMap.driveSystem.gyro.GetAngle(), xoffset);
+
+	_robotMap.driveSystem.drivetrain.Set(power, -power); // power to drive
 }
 
 void Robot::TeleopInit() {}
