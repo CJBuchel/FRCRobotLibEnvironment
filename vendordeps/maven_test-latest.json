@@ -1,0 +1,29 @@
+{
+    "fileName": "maven_test-latest.json",
+    "name": "maven_test",
+    "version": "2021.3.1",
+    "uuid": "375fc5d8-212d-4689-bbc0-507ce568a84d",
+    "mavenUrls": [
+        "http://192.168.178.180:8080/repository/wml"
+    ],
+    "jsonUrl": "http://192.168.178.180:8080/repository/wml/first/maven_test/maven_test-Deps/latest/maven_test-Deps-latest.json",
+    "cppDependencies": [
+        {
+            "groupId": "first.maven_test",
+            "artifactId": "maven_test-cpp",
+            "version": "2021.3.1",
+            "libName": "maven_test",
+            "headerClassifier": "headers",
+            "sourcesClassifier": "sources",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxx86-64",
+                "windowsx86-64",
+                "osxx86-64",
+                "linuxathena",
+                "linuxraspbian"
+            ]
+        }
+    ]
+}

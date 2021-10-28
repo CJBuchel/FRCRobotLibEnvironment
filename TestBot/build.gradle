@@ -1,6 +1,0 @@
-ext {
-	teamNum = 0000
-	nativeName = 'TestBot'
-}
-
-apply from: rootProject.file('robot.gradle')

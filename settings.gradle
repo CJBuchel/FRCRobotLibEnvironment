@@ -28,11 +28,12 @@ pluginManagement {
 
 rootProject.name = 'FRCRobotLibEnvironment'
 
-include '4788', 'TestBot'
+include '4788'
 
 
 // WML & CJ-Vision
-include 'WML-Core', 'WML-Rev', 'CJ-Vision'
-project(':WML-Core').projectDir = file('WML/WML-Core')
-project(':WML-Rev').projectDir = file('WML/WML-Rev')
+include 'CJ-Vision'
+// include 'WML-Core', 'WML-Rev', 'CJ-Vision'
+// project(':WML-Core').projectDir = file('WML/WML-Core')
+// project(':WML-Rev').projectDir = file('WML/WML-Rev')
 project(':CJ-Vision').projectDir = file('CJ-Vision/multiProject')

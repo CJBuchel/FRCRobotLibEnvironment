@@ -10,6 +10,8 @@
 
 #include "Drivetrain.h"
 
+#include "maven_test.h"
+
 using namespace UDP_TransferNT;
 
 
@@ -27,6 +29,8 @@ struct PID {
 }; PID pid;
 
 void Robot::RobotInit() {
+	Maven_Test test;
+	test.maven_test();
 	_network = std::make_shared<Network>(Network::Type::SERVER, Network::ConnectionType::IP_SPECIFIC);
 	_network->getSocket().setPort(5801); // legal frc ports are between 5800:5810
 	_network->getSocket().setRecvTimeout(1); // set timeout to 1ms
